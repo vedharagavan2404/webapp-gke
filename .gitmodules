@@ -1,0 +1,3 @@
+[submodule "manifest_files"]
+	path = manifest_files
+	url = https://github.com/vedharagavan2404/final_project_manifest.git
