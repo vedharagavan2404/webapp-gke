@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: 690612321301.dkr.ecr.us-east-1.amazonaws.com/clo835_final_project_app:v1.0
+          image: us-east1-docker.pkg.dev/kubernetes-app-398819/webapp-image/web-app:1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 81

@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: mysql-db
-        image: 690612321301.dkr.ecr.us-east-1.amazonaws.com/clo835_final_project_db:v1.0
+        image: us-east1-docker.pkg.dev/kubernetes-app-398819/database-image/my-sql:1.0
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: sqldb-data
