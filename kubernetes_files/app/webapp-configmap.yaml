@@ -4,5 +4,5 @@ metadata:
   name: webapp-configmap
   namespace: final
 data:
-  BACKGROUND_IMAGE_URL: http://18.212.160.21:30000/download/avengers.jpg
-  YOUR_NAME: SENECA_GROUP11
+  BACKGROUND_IMAGE_URL: https://storage.cloud.google.com/vedha-bucket/avengers.jpg?authuser=1
+  YOUR_NAME: Created by Vedha Ragavan
