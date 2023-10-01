@@ -3,6 +3,8 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
+        GCLOUD_KEY = credentials('gcp-key')
+        GOOGLE_APPLICATION_CREDENTIALS = "${GCLOUD_KEY}"
     }
     
     stages {
@@ -26,21 +28,9 @@ pipeline {
         stage('Push the artifacts to GCP Artifact Registry') {
             steps {
                 script {
-                    // Define the GCP Service Account credentials as a secret file
-                    def gcpServiceAccountKey = credentials('gcp-key')
-
-                    // Print the key file path to verify it
-                    sh "echo 'Key File Path: ${gcpServiceAccountKey}'"
-                    
-                    // Display the content of the key file for troubleshooting
-                    sh "cat ${gcpServiceAccountKey}"
-                    
-                    // Authenticate with GCP using the service account key
-                    withCredentials([file(credentialsId: 'gcp-key', variable: 'GCLOUD_KEY')]) {
                         sh '''
                         echo 'Push Database image to GCP Artifact Registry'
-                        export GOOGLE_APPLICATION_CREDENTIALS="${gcpServiceAccountKey}"
-                        gcloud auth activate-service-account --key-file="${gcpServiceAccountKey}"
+                        gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
                         gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
                         docker push us-east1-docker.pkg.dev/kubernetes-app-398819/database-image/sqldb:${BUILD_NUMBER}
                         '''
