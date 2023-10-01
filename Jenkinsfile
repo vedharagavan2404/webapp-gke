@@ -30,10 +30,10 @@ pipeline {
                     def gcpServiceAccountKey = credentials('gcp-key')
 
                     // Print the key file path to verify it
-                    sh "echo 'Key File Path: ${gcpServiceAccountKeyPath}'"
+                    sh "echo 'Key File Path: ${gcpServiceAccountKey}'"
                     
                     // Display the content of the key file for troubleshooting
-                    sh "cat ${gcpServiceAccountKeyPath}"
+                    sh "cat ${gcpServiceAccountKey}"
                     
                     // Authenticate with GCP using the service account key
                     withCredentials([file(credentialsId: 'gcp-key', variable: 'GCLOUD_KEY')]) {
