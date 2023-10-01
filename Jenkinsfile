@@ -28,13 +28,12 @@ pipeline {
         stage('Push the artifacts to GCP Artifact Registry') {
             steps {
                 script {
-                        sh '''
-                        echo 'Push Database image to GCP Artifact Registry'
-                        gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
-                        gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
-                        docker push us-east1-docker.pkg.dev/kubernetes-app-398819/database-image/sqldb:${BUILD_NUMBER}
-                        '''
-                    }
+                    sh '''
+                    echo 'Push Database image to GCP Artifact Registry'
+                    gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+                    gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
+                    docker push us-east1-docker.pkg.dev/kubernetes-app-398819/database-image/sqldb:${BUILD_NUMBER}
+                    '''
                 }
             }
         }
