@@ -19,7 +19,7 @@ pipeline {
                 script{
                     sh '''
                     echo 'Build SqlDb Image'
-                    docker build -t mysql-db:${BUILD_NUMBER} dockerfile_mysql .
+                    docker build -t mysql-db:${BUILD_NUMBER} -f dockerfile_mysql .
                     '''
                 }
             }
