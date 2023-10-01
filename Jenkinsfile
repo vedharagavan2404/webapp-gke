@@ -1,13 +1,11 @@
 pipeline {
-    
-    agent any 
+    agent any
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
     
     stages {
-        
         stage('SCM Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/vedharagavan2404/webapp-gke.git'
@@ -28,10 +26,11 @@ pipeline {
         stage('Push the artifacts to GCP Artifact Registry') {
             steps {
                 script {
-                    def gcpServiceAccountKey = credentials('gcp-key') 
-            
-                    // Authenticate with GCP using service account key
-                    withCredentials([gcpServiceAccountKey(credentialsId: 'gcp-key', variable: 'GCLOUD_KEY')]) {
+                    // Define the GCP Service Account credentials as a secret file
+                    def gcpServiceAccountKey = credentials('gcp-key')
+                    
+                    // Authenticate with GCP using the service account key
+                    withCredentials([file(credentialsId: 'gcp-key', variable: 'GCLOUD_KEY')]) {
                         sh '''
                         echo 'Push Database image to GCP Artifact Registry'
                         export GOOGLE_APPLICATION_CREDENTIALS=$GCLOUD_KEY
