@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-        stage('Push the artifacts to GCP Artifact Registry') {
+        stage('Push the database artifacts to GCP Artifact Registry') {
             steps {
                 script {
                     sh '''
@@ -33,6 +33,30 @@ pipeline {
                     gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
                     gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
                     docker push us-east1-docker.pkg.dev/kubernetes-app-398819/database-image/sqldb:${BUILD_NUMBER}
+                    '''
+                }
+            }
+        }
+        
+        stage('Build Docker Image for Webapp') {
+            steps {
+                script {
+                    sh '''
+                    echo 'Build pyhton webapp Image'
+                    docker build -t us-east1-docker.pkg.dev/kubernetes-app-398819/webapp-image/webapp:${BUILD_NUMBER} -f dockerfile .
+                    '''
+                }
+            }
+        }
+
+        stage('Push the application artifacts to GCP Artifact Registry') {
+            steps {
+                script {
+                    sh '''
+                    echo 'Push Webapp image to GCP Artifact Registry'
+                    gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+                    gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
+                    docker push us-east1-docker.pkg.dev/kubernetes-app-398819/webapp-image/webapp:${BUILD_NUMBER}
                     '''
                 }
             }
