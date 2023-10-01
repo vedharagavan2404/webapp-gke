@@ -28,6 +28,12 @@ pipeline {
                 script {
                     // Define the GCP Service Account credentials as a secret file
                     def gcpServiceAccountKey = credentials('gcp-key')
+
+                    // Print the key file path to verify it
+                    sh "echo 'Key File Path: ${gcpServiceAccountKeyPath}'"
+                    
+                    // Display the content of the key file for troubleshooting
+                    sh "cat ${gcpServiceAccountKeyPath}"
                     
                     // Authenticate with GCP using the service account key
                     withCredentials([file(credentialsId: 'gcp-key', variable: 'GCLOUD_KEY')]) {
